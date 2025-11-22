@@ -8,10 +8,12 @@ import Home from "./pages/Home.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import Profile from "./pages/Profile.tsx";
 import Signup from "./pages/Signup.tsx";
-
+import { Provider } from 'react-redux';
+import{ store} from './config/store.ts'
 
 
 createRoot(document.getElementById('root')!).render(
+  <Provider store={store}>
 
     <BrowserRouter>
       <App />
@@ -25,5 +27,6 @@ createRoot(document.getElementById('root')!).render(
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
+  </Provider>
 
 )

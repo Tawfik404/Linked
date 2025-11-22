@@ -1,26 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const counterSlice = createSlice({
+const userSlice = createSlice({
     name: 'user',
     initialState: {
-        "nom": "Funk",
-        "age": "4",
-        "admin": false,
-        "MotDePasse": "e2EpziAy5RIpJgP",
-        "pseudo": "Kaci_Reilly73",
-        "prenom": "Rose",
-        "couleur": "maroon",
-        "Devise": "kr",
-        "Pays": "Spain",
-        "avatar": "https://cloudflareipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/831.jpg",
-        "email": "Wade34@yahoo.com",
-        "photo": "https://loremflickr.com/640/480/people",
-        "id": "8"
+        user: {}
+        // "id": 1,
+        // "firstname": "Mike",
+        // "lastname": "Tyson",
+        // "email": "Wade34@yahoo.com",
+        // "password": "password123",
+        // "country": "Morocco",
+        // "currency": "DH",
+        // "image": "https://github.com/shadcn.png",
+        // "color": "Rose",
+        // "date": "24-04-2004",
     },
     reducers: {
-
+        setUser(state, action) {
+            state.user = action.payload;
+        },
     },
 });
 
-//export const { increment, decrement, reset, incrementByAmount } = counterSlice.actions;
-export default counterSlice.reducer;
+export const { setUser } = userSlice.actions;
+export default userSlice.reducer;

@@ -17,10 +17,11 @@ class SignUpCon extends Controller
         
         if ($checkUser) {
             return response()->json([
-                'status' => 404,
+                'status' => 409,
                 'message' => 'User already exists'
             ]);
         } else {
+            
             $date = Carbon::createFromFormat('m/d/Y', $request->input('date'))->format('Y-m-d');
             $user = User::create([
                 'firstname' =>  $request->input('firstname'),
@@ -34,10 +35,12 @@ class SignUpCon extends Controller
                 'date' => $date
             ]);
 
+        $userCreated = User::where('email', $request->input('email'))->first();
 
             return response()->json([
                 'status' => 200,
-                'message' => 'User created'
+                'message' => 'User created',
+                'user' => $userCreated
             ]);
         }
     }

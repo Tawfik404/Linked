@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/popover"
 
 import * as React from "react"
-import { useState, useRef,useEffect } from "react"
+import { useState, useRef, useEffect } from "react"
 import { ChevronDownIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
 
@@ -40,6 +40,12 @@ import themes from "../assets/themes.json";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"
 
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '../config/slice.ts';
+import { useAppSelector } from '../hooks/useAppSelector.ts'
+import type { RootState, AppDispatch } from '../config/store';
+import { Spinner } from "@/components/ui/spinner"
+
 export default function Signup() {
 
   const [open, setOpen] = React.useState(false);
@@ -47,7 +53,8 @@ export default function Signup() {
   const [img, setImg] = useState(null);
   const [imgFile, setImgFile] = useState(null);
   const imgRef = useRef(null);
-  const [resSignUp,setResSignUp] = useState(null)
+  const [resSignUp, setResSignUp]   = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   const [userInfo, setUserInfo] = useState({
     firstname: '',
@@ -58,12 +65,12 @@ export default function Signup() {
     country: '',
     currency: '',
     color: '',
-    img:''
+    img: ''
   });
 
   const [errorMsg, setErrorMsg] = useState("");
 
-  const handleFileChange = async(e) => {
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
@@ -78,95 +85,107 @@ export default function Signup() {
 
 
   const nav = useNavigate()
-  useEffect(()=>{
-    if(resSignUp && resSignUp.status== 200){
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    if (resSignUp && resSignUp.status == 200) {
+      //setUserInfo(resSignUp)
+
+
+      dispatch(setUser(resSignUp.user))
       nav("/home")
     }
-  },[resSignUp,nav])
+  }, [resSignUp, nav, dispatch])
 
 
- const handlUserInfo = async()=>{
-console.log(userInfo);
+  const handlUserInfo = async () => {
+    console.log(userInfo);
 
-const emailRegEx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-const pwdRegEx = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{6,}$/
+    const emailRegEx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const pwdRegEx = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{6,}$/
 
-if(userInfo.firstname.length < 3 || userInfo.lastname.length < 3){
-  setErrorMsg("First name and Last name should be at least 3 characters")
-}
-
-else if(!(emailRegEx.test(userInfo.email))){
-  setErrorMsg("Email is Not Valid")
-  return
-}
-
-else if(!(pwdRegEx.test(userInfo.password))){
-  setErrorMsg("Password is Not Valid \n Minimum 6 characters  ")
-  return
-}
-
-//const dateNow = Date()
-else if(userInfo.date.length == 0 || userInfo.date >= Date() ){
-  setErrorMsg("Invalid date of birth")
-  return
-}
-
-
-else if(userInfo.country.length == 0 ){
-  setErrorMsg("Please choose the country")
-  return
-}
-
-else if(userInfo.currency.length == 0){
-  setErrorMsg("Please choose the currency")
-  return
-}
-
-else if(userInfo.color.length == 0){
-  setErrorMsg("Please choose the theme color")
-  return
-}
-
-else{
-  setErrorMsg("Successs")
-
-          const formData = new FormData();
-    formData.append("file", imgFile);
-    formData.append("upload_preset", "imgUpload"); // unsigned preset
-
-    // 1. Upload to Cloudinary
-    const uploadRes = await axios.post(
-      `https://api.cloudinary.com/v1_1/dg1hjs28s/image/upload`,
-      formData
-    );
-
-    
-
-    const urlImage = uploadRes.data.secure_url;
-    //setImgURL(urlImage);
-    if(uploadRes.status == 200){
-      //setErrorMsg("Error Uploading Image")
-      setUserInfo({ ...userInfo,img:urlImage })
-      if(userInfo.img.length>0){
-
-        axios.post("http://127.0.0.1:8000/api/signup",{...userInfo})
-        .then(res=>{console.log(res.data); setErrorMsg(res.data.message);setResSignUp(res.data)})
-        .catch(err=>console.log(err))
-        
-        return
-      }
+    if (userInfo.firstname.length < 3 || userInfo.lastname.length < 3) {
+      setErrorMsg("First name and Last name should be at least 3 characters")
     }
 
-}
+    else if (!(emailRegEx.test(userInfo.email))) {
+      setErrorMsg("Email is Not Valid")
+      return
+    }
 
+    else if (!(pwdRegEx.test(userInfo.password))) {
+      setErrorMsg("Password is Not Valid")
+      return
+    }
+
+    //const dateNow = Date()
+    else if (userInfo.date.length == 0 || userInfo.date >= Date()) {
+      setErrorMsg("Invalid date of birth")
+      return
+    }
+
+
+    else if (userInfo.country.length == 0) {
+      setErrorMsg("Please choose the country")
+      return
+    }
+
+    else if (userInfo.currency.length == 0) {
+      setErrorMsg("Please choose the currency")
+      return
+    }
+
+    else if (userInfo.color.length == 0) {
+      setErrorMsg("Please choose the theme color")
+      return
+    }
+    
+
+
+    else {
+      setIsLoading(true)
+
+      const formData = new FormData();
+      formData.append("file", imgFile);
+      formData.append("upload_preset", "imgUpload"); // unsigned preset
+
+      // 1. Upload to Cloudinary
+      const uploadRes = await axios.post(
+        `https://api.cloudinary.com/v1_1/dg1hjs28s/image/upload`,
+        formData
+      ).catch(() => { setIsLoading(false) })
+
+      const urlImage = uploadRes.data.secure_url;
+      //setImgURL(urlImage);\
+
+      if (urlImage) {
+        setUserInfo({ ...userInfo, img: urlImage })
+      }
+    }
   }
+
+
+  useEffect(() => {
+    if (userInfo.img.length > 0) {
+      console.log(userInfo);
+
+      axios.post("http://127.0.0.1:8000/api/signup", { ...userInfo })
+        .then(res => { console.log(res.data); setResSignUp(res.data); setIsLoading(false) })
+        .catch(err => { console.log(err); setIsLoading(false) })
+
+
+
+    }
+  }, [userInfo])
+
+
 
   return (
     <div className="flex flex-col justify-center  h-screen">
       <Card className="w-full max-w-sm self-center">
         <CardHeader>
 
-          <CardTitle style={{ fontSize: 20, marginBottom: 5, fontWeight: "bold" ,color:userInfo.color}}>Make an Account</CardTitle>
+          <CardTitle style={{ fontSize: 20, marginBottom: 5, fontWeight: "bold", color: userInfo.color }}>Make an Account</CardTitle>
 
 
           <Avatar className="w-25 h-auto flex-col  justify-self-center" onClick={() => {
@@ -227,9 +246,10 @@ else{
                   <Label htmlFor="password">Password</Label>
 
                 </div>
-                <Input id="password" type="password" required 
-                                    value={userInfo.password}
-                    onChange={(e) => { setUserInfo({ ...userInfo, password: e.target.value }) }}
+                <Input id="password" type="password" required
+                placeholder="*******"
+                  value={userInfo.password}
+                  onChange={(e) => { setUserInfo({ ...userInfo, password: e.target.value }) }}
                 />
               </div>
             </div>
@@ -268,7 +288,7 @@ else{
             </Label>
             <Select
               value={userInfo.country}
-             onValueChange={(country) => { setUserInfo({ ...userInfo, country: country }) }}
+              onValueChange={(country) => { setUserInfo({ ...userInfo, country: country }) }}
 
             >
               <SelectTrigger className="w-[180px]">
@@ -276,8 +296,8 @@ else{
               </SelectTrigger>
               <SelectContent>
                 {countries.map((country) => {
-                  return <SelectItem key={country.country}  value={country.country}>
-                    <img  alt={country.code} src={country.flag} className="w-5" />
+                  return <SelectItem key={country.country} value={country.country}>
+                    <img alt={country.code} src={country.flag} className="w-5" />
                     {country.country}</SelectItem>
                 })}
               </SelectContent>
@@ -288,7 +308,7 @@ else{
             </Label>
             <Select
               value={userInfo.currency}
-              onValueChange={(currency) => { setUserInfo({ ...userInfo, currency: currency}) }}
+              onValueChange={(currency) => { setUserInfo({ ...userInfo, currency: currency }) }}
             >
               <SelectTrigger className="w-[180px]">
                 <SelectValue />
@@ -296,7 +316,7 @@ else{
               <SelectContent>
 
                 {Object.values(currencies).map((currency) => (
-                  <SelectItem key={currency.code}  value={currency.code}>
+                  <SelectItem key={currency.code} value={currency.code}>
                     {currency.name} | {currency.symbol_native}
                   </SelectItem>
                 ))}
@@ -331,14 +351,16 @@ else{
                 </SelectGroup>
               </SelectContent>
             </Select>
-            <p className="mt-3" style={{ color:userInfo.color }}>{errorMsg}</p>
+            <p className="mt-3" style={{ color: userInfo.color }}>{errorMsg}</p>
           </form>
         </CardContent>
         <CardFooter className="flex-col gap-2">
-          <Button type="submit" className='w-full' onClick={handlUserInfo} style={{ backgroundColor:userInfo.color }}>
-            Sign Up
+          <Button type="submit" className='w-full' onClick={handlUserInfo} style={{ backgroundColor: userInfo.color }}>
+
+            Sign{isLoading ? "ing" : ""} up{isLoading ? <Spinner /> : ""}
+
           </Button>
-          <Button variant="outline" className="w-full" style={{ color:userInfo.color }} onClick={()=>{nav("/login")}}>
+          <Button variant="outline" className="w-full" style={{ color: userInfo.color }} onClick={() => { nav("/login") }}>
             Login
           </Button>
 
