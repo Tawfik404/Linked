@@ -100,7 +100,7 @@ if(resLogin.status == 200){
                 <Label htmlFor="password">Password</Label>
 
                 <Input id="password" type="password" required placeholder="********" 
-                                  onChange={(e)=>setUserInfo({...userInfo,password:e.target.value})}
+                    onChange={(e)=>setUserInfo({...userInfo,password:e.target.value})}
                   value={userInfo.password}
                 />
               </div>
