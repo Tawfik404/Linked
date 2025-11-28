@@ -1,4 +1,8 @@
-export default function Requests({className}){
-    return <div className='grid-span-4'><h1></h1></div>
+export default function Requests({ className }) {
+    return (
+        <div className={'grid grid-cols-1 gap-5 place-items-center h-90'}>
+
+
+        </div>)
 
 }

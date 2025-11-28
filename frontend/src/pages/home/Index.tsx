@@ -25,8 +25,8 @@ console.log(isMobile);
   console.log(location);
   const routes = [
     { name: 'Home', route: '/home',icon:Home },
-    { name: 'Profile', route: '/home/profile',icon:User },
     { name: 'Requests', route: '/home/requests',icon:Send },
+    { name: 'Profile', route: '/home/profile',icon:User },
   ]
 
   

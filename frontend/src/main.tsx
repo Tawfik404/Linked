@@ -11,30 +11,28 @@ import Signup from "./pages/Signup.tsx";
 import { Provider } from 'react-redux';
 import { store } from './config/store.ts'
 import Requests from './pages/home/Requests.tsx';
-
+import CreateReq from './pages/home/CreateReq.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-
     <Provider store={store}>
-
       <BrowserRouter>
-        <App />
 
+        <App />
 
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
 
-
-          <Route path="/home" element={<Home />} >
-            <Route path="profile" element={<Profile />} />
+          <Route path="/home" element={<Home />}>
+            <Route index element={<CreateReq />} />
+            <Route path="createReq" element={<CreateReq />} />
             <Route path="requests" element={<Requests />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </Provider>
-
   </StrictMode>
 )

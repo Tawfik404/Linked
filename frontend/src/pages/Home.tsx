@@ -16,10 +16,17 @@ export default function Home() {
         <HeaderSec />
         <NavigationSec />
 
-        <div className='grid grid-cols-6'  >
-            <Index className='grid-span-2'/>
+        <div className='grid grid-cols-6 gap-3'  >
+            <div className={isMobile? '': 'col-span-1'}>
+            <Index/>
+
+            </div>
+
+            <div className={isMobile? 'col-span-6' : 'col-span-5'}>
+
             <Outlet />
+            </div>
         </div>
     </div>)
-
+ 
 }

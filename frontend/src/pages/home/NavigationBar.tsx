@@ -18,8 +18,8 @@ export default function NavigationSec() {
   console.log(location);
   const routes = [
     { name: 'Home', route: '/home',icon:Home },
-    { name: 'Profile', route: '/home/profile',icon:User },
     { name: 'Requests', route: '/home/requests',icon:Send },
+    { name: 'Profile', route: '/home/profile',icon:User },
   ]
   return <>
   <div className="w-full grid grid-cols-1 justify-items-center" style={{ display:isMobile?"": "none"}}>
@@ -27,18 +27,18 @@ export default function NavigationSec() {
     <NavigationMenu className="col-span-full ">
       <NavigationMenuList className=" gap-x-2">
           {routes.map((route) => (
-            <NavigationMenuItem key={route.route}>
               <NavigationMenuLink
                 onClick={(e) => { e.preventDefault(); nav(route.route); }}
                 href={route.route}
                 id="navlink"
                 className="flex flex-col items-center justify-center gap-1 px-3 py-2 rounded"
                 style={{ backgroundColor: location === route.route ? "#e7e3e4d6" : undefined }}
+                key={route.route}
               >
                 <route.icon className="w-6 h-6" />
                 <span className="text-sm">{route.name}</span>
               </NavigationMenuLink>
-            </NavigationMenuItem>
+            
           ))}
       </NavigationMenuList>
     </NavigationMenu>
