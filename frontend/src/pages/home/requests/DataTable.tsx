@@ -15,6 +15,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { useSelector } from "react-redux"
+import type { RootState } from "@/config/store"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -31,6 +33,7 @@ export default function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
   })
 
+    const user = useSelector((state: RootState) => state.user.user);
 
   
 
@@ -42,7 +45,7 @@ export default function DataTable<TData, TValue>({
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead key={header.id} style={{ color:user.color }}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(

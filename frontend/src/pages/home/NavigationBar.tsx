@@ -10,14 +10,16 @@ import { Send, Home, User } from "lucide-react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHouse as HouseSolid, faPaperPlane as PaperPlaneSolid, faUser as UserSolid } from '@fortawesome/free-solid-svg-icons'
 import { faHouse as HouseRegular, faPaperPlane as PaperPlaneRegular, faUser as UserRegular } from '@fortawesome/free-regular-svg-icons'
+import { useSelector } from "react-redux";
+import type { RootState } from "@/config/store";
 
 
 export default function NavigationSec() {
   const isMobile = useIsMobile()
   const nav = useNavigate()
+  const user = useSelector((state: RootState) => state.user.user);
 
   const location = useLocation().pathname
-  console.log(location);
   const routes = [
     {
       name: 'Home', route: '/home',
@@ -41,7 +43,7 @@ export default function NavigationSec() {
       }
     },
   ]
-  
+
   return <>
     <div className="w-full grid grid-cols-1 justify-items-center" style={{ display: isMobile ? "" : "none" }}>
       <NavigationMenu className="col-span-full ">
@@ -52,10 +54,12 @@ export default function NavigationSec() {
               href={route.route}
               id="navlink"
               className="flex flex-col items-center justify-center gap-1 px-3 py-2 rounded"
-              style={{ backgroundColor: location === route.route ? "#e7e3e4d6" : undefined }}
+              style={{ backgroundColor: location === route.route ? "#e7e3e480" : undefined, color: location === route.route ? user.color : undefined, fontWeight: location === route.route ? 600 : undefined }}
               key={route.route}
             >
-              <FontAwesomeIcon  className="w-6 h-6" icon={location === route.route? route.icon.solid : route.icon.regular}/>
+              <FontAwesomeIcon className="w-6 h-6" 
+              icon={location === route.route ? route.icon.solid : route.icon.regular} 
+              style={{color:location === route.route ? user.color : undefined}} />
               <span className="text-sm">{route.name}</span>
             </NavigationMenuLink>
           ))}

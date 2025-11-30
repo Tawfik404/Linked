@@ -17,11 +17,14 @@ import './NavigationSec.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHouse as HouseSolid, faPaperPlane as PaperPlaneSolid, faUser as UserSolid } from '@fortawesome/free-solid-svg-icons'
 import { faHouse as HouseRegular, faPaperPlane as PaperPlaneRegular, faUser as UserRegular } from '@fortawesome/free-regular-svg-icons'
+import { useSelector } from "react-redux";
+import type { RootState } from "@/config/store";
 
 
 export default function Index({ className }) {
   const isMobile = useIsMobile()
   console.log(isMobile);
+  const user = useSelector((state: RootState) => state.user.user);
 
   const location = useLocation().pathname
   const nav = useNavigate()
@@ -65,11 +68,11 @@ export default function Index({ className }) {
               <SidebarGroupContent>
                 <SidebarMenu>
                   {routes.map((item) => (
-                    <SidebarMenuItem key={item.name}>
+                    <SidebarMenuItem key={item.name} >
                       <SidebarMenuButton onClick={(e) => { e.preventDefault(); nav(item.route); }} style={{ backgroundColor: location === item.route ? "#e7e3e4d6" : undefined }}>
                         <a href={item.route} className="flex items-center gap-2" >
-                          <FontAwesomeIcon className="w-6 h-6" icon={location === item.route ? item.icon.solid : item.icon.regular} />
-                          <span>{item.name}</span>
+                          <FontAwesomeIcon className="w-6 h-6" icon={location === item.route ? item.icon.solid : item.icon.regular} style={{ color: location === item.route ? user.color : undefined}}/>
+                          <span style={{ color: location === item.route ? user.color : undefined,fontWeight:600}}>{item.name}</span>
                         </a>
                       </SidebarMenuButton>
                     </SidebarMenuItem>

@@ -3,12 +3,19 @@ import type { RootState } from '../config/store';
 import HeaderSec from './home/HeaderSec';
 import NavigationSec from './home/NavigationBar';
 import Index from './home/Index';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import useIsMobile from "useismobile";
+import { useEffect } from 'react';
 
 export default function Home() {
     const selector = useSelector((state: RootState) => state.user.user);
     console.log(selector);
+    const nav = useNavigate();
+    useEffect(()=>{
+        if(Object.keys(selector).length == 0){
+            nav("/login")
+        }
+    },[])
     const isMobile = useIsMobile()
 
 

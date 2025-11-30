@@ -317,7 +317,7 @@ export default function Signup() {
 
                 {Object.values(currencies).map((currency) => (
                   <SelectItem key={currency.code} value={currency.code}>
-                    {currency.name} | {currency.symbol_native}
+                    {currency.name} 
                   </SelectItem>
                 ))}
 
