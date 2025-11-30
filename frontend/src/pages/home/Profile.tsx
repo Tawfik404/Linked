@@ -1,4 +1,215 @@
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+ CardFooter,
+ // CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  SelectLabel,
+  SelectGroup,
+} from "@/components/ui/select"
+import { Calendar } from "@/components/ui/calendar"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { ChevronDownIcon } from "lucide-react"
+import { useNavigate } from "react-router-dom"
+
 export default function Profile({className}){
-    return <div className='grid-span-4'><h1>profile</h1></div>
+  const nav = useNavigate()
+
+    return <div className='grid grid-cols-1 gap-5 place-items-center h-90'>
+              <Card className="w-full max-w-sm self-center">
+        <CardHeader>
+
+          <CardTitle style={{ fontSize: 20, marginBottom: 5, fontWeight: "bold", color: 'red',textAlign:"center"}}>Make an Account</CardTitle>
+
+
+          <Avatar className="w-25 h-auto flex-col  justify-self-center">
+            {/* <input onChange={handleFileChange} ref={imgRef} type="file" alt="img" placeholder="img" className="h-25" style={{ display: "none" }} disabled /> */}
+            <AvatarImage className="justify-self-center" src={"https://github.com/shadcn.png"} alt="@shadcn" />
+            <AvatarFallback>Profile</AvatarFallback>
+          </Avatar>
+
+        </CardHeader>
+        <CardContent>
+          <form>
+            <div className="flex flex-col gap-6">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="grid gap-2">
+                  <Label htmlFor="firstname">Nom</Label>
+                  <Input
+                    id="firstname"
+                    type="name"
+                    placeholder="Mike"
+                    disabled
+                  //  value={userInfo.firstname}
+                  //  onChange={(e) => { setUserInfo({ ...userInfo, firstname: e.target.value }) }}
+
+                  />
+                </div>
+
+                <div className="grid gap-2">
+                  <Label htmlFor="lastname">Prenom</Label>
+                  <Input
+                    id="lastname"
+                    type="name"
+                    placeholder="Tyson"
+                    disabled
+                  //  onChange={(e) => { setUserInfo({ ...userInfo, lastname: e.target.value }) }}
+                  //  value={userInfo.lastname}
+
+                  />
+                </div>
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="email@example.com"
+                  disabled
+                 // onChange={(e) => { setUserInfo({ ...userInfo, email: e.target.value }) }}
+                 // value={userInfo.email}
+
+                />
+              </div>
+              <div className="grid gap-2">
+                <div className="flex items-center">
+                  <Label htmlFor="password">Password</Label>
+
+                </div>
+                <Input id="password" type="password" disabled
+                placeholder="*******"
+                  //value={userInfo.password}
+                 // onChange={(e) => { setUserInfo({ ...userInfo, password: e.target.value }) }}
+                />
+              </div>
+            </div>
+
+
+            <Label htmlFor="date" className="my-2">
+              Date of birth
+            </Label>
+            <Popover>
+              <PopoverTrigger asChild className="flex content-start">
+                <Button
+                  variant="outline"
+                  id="date"
+                  className="w-48 justify-between font-normal"
+                  disabled
+                >
+                  
+                  <ChevronDownIcon />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+                <Calendar
+                  mode="single"
+                  //selected={date}
+                  //captionLayout="dropdown"
+                />
+              </PopoverContent>
+            </Popover>
+
+            <Label htmlFor="country" className="my-2">
+              Pays
+            </Label>
+            <Select
+             // value={userInfo.country}
+             // onValueChange={(country) => { setUserInfo({ ...userInfo, country: country }) }}
+            disabled
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {/* {countries.map((country) => {
+                  return <SelectItem key={country.country} value={country.country}>
+                    <img alt={country.code} src={country.flag} className="w-5" />
+                    {country.country}</SelectItem>
+                })} */}
+              </SelectContent>
+            </Select>
+
+            <Label htmlFor="currency" className="my-2">
+              Devise
+            </Label>
+            <Select
+            disabled
+              //value={userInfo.currency}
+              //onValueChange={(currency) => { setUserInfo({ ...userInfo, currency: currency }) }}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+{/* 
+                {Object.values(currencies).map((currency) => (
+                  <SelectItem key={currency.code} value={currency.code}>
+                    {currency.name} | {currency.symbol_native}
+                  </SelectItem>
+                ))} */}
+
+
+              </SelectContent>
+            </Select>
+
+
+            <Select
+            >
+
+              <Label htmlFor="color" className="my-2">
+                Color
+              </Label>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Theme Color" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Colors</SelectLabel>
+                  {/* {themes.map((color) => {
+                    return <SelectItem key={color.code} className="flex justify-items-end" value={color.code}>
+                      <div style={{ backgroundColor: color.code, color: "white", borderRadius: "50%" }} className="w-5 h-5"></div>
+                      {color.name}
+                    </SelectItem>
+                  })} */}
+
+
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </form>
+        </CardContent>
+                <CardFooter className="flex-row gap-2 justify-end">
+          <Button variant="outline" className="w-fit"  onClick={() => { nav("/home") }}>
+            Cancel
+          </Button>
+          <Button type="submit" className='w-fit' >
+
+            Save
+
+          </Button>
+
+        </CardFooter>
+      </Card>
+    </div>
 
 }

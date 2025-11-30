@@ -37,13 +37,13 @@ import {
 import countries from "../assets/country-flag.json";
 import currencies from "../assets/Currency.json";
 import themes from "../assets/themes.json";
-import axios from "axios";
+import api from "../config/api.ts";
 import { useNavigate } from "react-router-dom"
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setUser } from '../config/slice.ts';
-import { useAppSelector } from '../hooks/useAppSelector.ts'
-import type { RootState, AppDispatch } from '../config/store';
+//import { useAppSelector } from '../hooks/useAppSelector.ts'
+import type { AppDispatch } from '../config/store';
 import { Spinner } from "@/components/ui/spinner"
 
 export default function Signup() {
@@ -70,7 +70,7 @@ export default function Signup() {
 
   const [errorMsg, setErrorMsg] = useState("");
 
-  const handleFileChange = async (e) => {
+  const handleFileChange = async (e)  => {
     const file = e.target.files[0];
     if (!file) return;
 
@@ -150,7 +150,7 @@ export default function Signup() {
       formData.append("upload_preset", "imgUpload"); // unsigned preset
 
       // 1. Upload to Cloudinary
-      const uploadRes = await axios.post(
+      const uploadRes = await api.post(
         `https://api.cloudinary.com/v1_1/dg1hjs28s/image/upload`,
         formData
       ).catch(() => { setIsLoading(false) })
@@ -169,7 +169,7 @@ export default function Signup() {
     if (userInfo.img.length > 0) {
       console.log(userInfo);
 
-      axios.post("http://127.0.0.1:8000/api/signup", { ...userInfo })
+      api.post("/signup", { ...userInfo })
         .then(res => { console.log(res.data); setResSignUp(res.data); setIsLoading(false) })
         .catch(err => { console.log(err); setIsLoading(false) })
 

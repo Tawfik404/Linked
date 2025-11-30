@@ -24,6 +24,7 @@ Schema::dropIfExists('users');
         $table->date('date')->nullable();
         $table->string('email')->unique();
         $table->timestamps();
+        $table->boolean("isAdmin")->default(false);
     });
     }
 

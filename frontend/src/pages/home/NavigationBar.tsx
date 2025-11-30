@@ -1,6 +1,5 @@
 import {
   NavigationMenu,
-  NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu"
@@ -8,6 +7,9 @@ import { useNavigate, useLocation } from "react-router-dom"
 import useIsMobile from "useismobile";
 import './NavigationSec.css'
 import { Send, Home, User } from "lucide-react"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHouse as HouseSolid, faPaperPlane as PaperPlaneSolid, faUser as UserSolid } from '@fortawesome/free-solid-svg-icons'
+import { faHouse as HouseRegular, faPaperPlane as PaperPlaneRegular, faUser as UserRegular } from '@fortawesome/free-regular-svg-icons'
 
 
 export default function NavigationSec() {
@@ -17,32 +19,49 @@ export default function NavigationSec() {
   const location = useLocation().pathname
   console.log(location);
   const routes = [
-    { name: 'Home', route: '/home',icon:Home },
-    { name: 'Requests', route: '/home/requests',icon:Send },
-    { name: 'Profile', route: '/home/profile',icon:User },
+    {
+      name: 'Home', route: '/home',
+      icon: {
+        solid: HouseSolid,
+        regular: HouseRegular
+      }
+    },
+    {
+      name: 'Requests', route: '/home/requests',
+      icon: {
+        solid: PaperPlaneSolid,
+        regular: PaperPlaneRegular
+      }
+    },
+    {
+      name: 'Profile', route: '/home/profile',
+      icon: {
+        solid: UserSolid,
+        regular: UserRegular
+      }
+    },
   ]
+  
   return <>
-  <div className="w-full grid grid-cols-1 justify-items-center" style={{ display:isMobile?"": "none"}}>
-
-    <NavigationMenu className="col-span-full ">
-      <NavigationMenuList className=" gap-x-2">
+    <div className="w-full grid grid-cols-1 justify-items-center" style={{ display: isMobile ? "" : "none" }}>
+      <NavigationMenu className="col-span-full ">
+        <NavigationMenuList className=" gap-x-2">
           {routes.map((route) => (
-              <NavigationMenuLink
-                onClick={(e) => { e.preventDefault(); nav(route.route); }}
-                href={route.route}
-                id="navlink"
-                className="flex flex-col items-center justify-center gap-1 px-3 py-2 rounded"
-                style={{ backgroundColor: location === route.route ? "#e7e3e4d6" : undefined }}
-                key={route.route}
-              >
-                <route.icon className="w-6 h-6" />
-                <span className="text-sm">{route.name}</span>
-              </NavigationMenuLink>
-            
+            <NavigationMenuLink
+              onClick={(e) => { e.preventDefault(); nav(route.route); }}
+              href={route.route}
+              id="navlink"
+              className="flex flex-col items-center justify-center gap-1 px-3 py-2 rounded"
+              style={{ backgroundColor: location === route.route ? "#e7e3e4d6" : undefined }}
+              key={route.route}
+            >
+              <FontAwesomeIcon  className="w-6 h-6" icon={location === route.route? route.icon.solid : route.icon.regular}/>
+              <span className="text-sm">{route.name}</span>
+            </NavigationMenuLink>
           ))}
-      </NavigationMenuList>
-    </NavigationMenu>
-</div>
+        </NavigationMenuList>
+      </NavigationMenu>
+    </div>
   </>
 
 }

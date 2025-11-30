@@ -12,3 +12,4 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/signup', [SignUpCon::class,"index"]);
 Route::post('/login', [LogInCon::class,"index"]);
+Route::post('/request', [LogInCon::class,"index"]);

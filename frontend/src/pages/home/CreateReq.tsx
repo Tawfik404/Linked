@@ -12,7 +12,7 @@ export default function CreateReq() {
             <h1 className="place-self-start ml-3" style={{ fontSize: "2em", fontWeight: "600" }}>Make a request:</h1>
             <div className={isMobile ? "col-span-1 w-80 " : "col-span-1 w-100 "}>
                 <Label htmlFor="title" style={{ fontSize: "1.2em" }} className="mb-2">Title</Label>
-                <Input type="text" id="title" placeholder="Title" className="mb-4" />
+                <Input type="text" id="title" placeholder="Title" className="mb-4" required/>
 
                 <Label htmlFor="title" className="mb-2" style={{ fontSize: "1.2em" }}>Description</Label>
 
@@ -21,6 +21,7 @@ export default function CreateReq() {
                         data-slot="input-group-control"
                         className="flex field-sizing-content min-h-16 w-full resize-none rounded-md bg-transparent px-3 py-2.5 text-base transition-[color,box-shadow] outline-none md:text-sm"
                         placeholder="Type in the description..."
+                        required
                     />
                     <InputGroupAddon align="block-end">
                         <InputGroupButton className="ml-auto" size="sm" variant="default">
