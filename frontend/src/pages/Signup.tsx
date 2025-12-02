@@ -99,7 +99,6 @@ export default function Signup() {
 
 
   const handlUserInfo = async () => {
-    console.log(userInfo);
 
     const emailRegEx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     const pwdRegEx = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{6,}$/
@@ -167,7 +166,6 @@ export default function Signup() {
 
   useEffect(() => {
     if (userInfo.img.length > 0) {
-      console.log(userInfo);
 
       api.post("/signup", { ...userInfo })
         .then(res => { console.log(res.data); setResSignUp(res.data); setIsLoading(false) })

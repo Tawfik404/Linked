@@ -31,14 +31,49 @@ import {
 } from "@/components/ui/popover"
 import { ChevronDownIcon } from "lucide-react"
 import { useNavigate } from "react-router-dom"
-import { useSelector } from "react-redux"
-import type { RootState } from "@/config/store"
+import { useDispatch, useSelector } from "react-redux"
+import type { AppDispatch, RootState } from "@/config/store"
 import countries from '@/assets/country-flag.json'
 import currencies from '@/assets/Currency.json'
 import themes from '@/assets/themes.json'
+import { useState } from "react"
+import api from "@/config/api"
+import { setUser } from "@/config/slice"
+import { toast } from "sonner"
+import { Spinner } from "@/components/ui/spinner"
 export default function Profile({className}){
   const nav = useNavigate()
+  const dispatch = useDispatch<AppDispatch>();
     const user = useSelector((state: RootState) => state.user.user);
+    const [color,setColor] = useState<String>(user.color)
+    const [isLoading,setIsLoading] = useState<Boolean>(false)
+    const updateColor = ()=>{
+      setIsLoading(true)
+      const age = new Date(user.date).getFullYear()
+      const thisYear = new Date().getFullYear()
+      if(thisYear - age < 15){
+        toast.warning("Permistion required")
+        setIsLoading(false)
+        return
+      }
+      
+      if(user.color != color){
+        api.patch(`/requests/${user.id}`,{color:color})
+        .then((res)=>{console.log(res.data)
+          dispatch(setUser(res.data.user))
+          setIsLoading(false)
+        })
+        .catch((e)=>{
+          console.log(e)
+          setIsLoading(false)
+        })
+        
+      }
+      else{
+
+        setIsLoading(false)
+      }
+    }
 
     return <div className='grid grid-cols-1 gap-5 place-items-center h-90'>
               <Card className="w-full max-w-sm self-center">
@@ -183,6 +218,9 @@ export default function Profile({className}){
 
 
             <Select
+            value={color}
+            onValueChange={(newColor)=>{setColor(newColor); console.log(newColor);
+            }}
             >
 
               <Label htmlFor="color" className="my-2">
@@ -211,9 +249,9 @@ export default function Profile({className}){
           <Button variant="outline" className="w-fit"  onClick={() => { nav("/home") }} style={{ color:user.color }}>
             Cancel
           </Button>
-          <Button type="submit" className='w-fit' style={{ background:user.color }} >
+          <Button type="submit" onClick={updateColor} className='w-fit' style={{ background:user.color }} >
 
-            Save
+            Save {isLoading? <Spinner/>:''}
 
           </Button>
 

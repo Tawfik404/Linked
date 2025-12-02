@@ -15,4 +15,6 @@ Route::post('/signup', [SignUpCon::class, "index"]);
 
 Route::post('/login', [LogInCon::class, "index"]);
 
-Route::post('/requests', [RequestsController::class, "store"]);
+Route::apiResource('/requests', RequestsController::class);
+Route::apiResource('/requests', RequestsController::class);
+Route::patch('/requests/{id}', [RequestsController::class,'update']);
