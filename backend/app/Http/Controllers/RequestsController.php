@@ -9,6 +9,8 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 
+use function PHPUnit\Framework\isEmpty;
+
 class RequestsController extends Controller
 {
     /**
@@ -17,20 +19,56 @@ class RequestsController extends Controller
     public function index(Request $req)
     {
         $id = $req->input("id");
-        try {
+        //get by ID
+        if (!(isEmpty($id))) {
+            try {
 
-            $requests = Requests::where('user_id', $id)->get();
+                $requests = Requests::where('user_id', $id)->get();
 
-            return response()->json([
-                "status" => 200,
-                'message' => 'all good',
-                'requests' => $requests
-            ]);
-        } catch (Exception $e) {
-            return response()->json([
-                "status" => 403,
-                'message' => 'Something went wrong'
-            ]);
+                return response()->json([
+                    'message' => 'all good',
+                    'requests' => $requests
+                ], 200);
+            } catch (Exception $e) {
+                return response()->json([
+                    'message' => 'Something went wrong'
+                ], 500);
+            }
+        } else {
+            //get everything
+
+            try {
+
+                //$requests = Requests::get()->all();
+
+                $requests = Requests::query()
+                    ->leftJoin('users', 'requests.user_id', '=', 'users.id')
+                    ->select('requests.*')
+                    ->selectRaw('users.image')
+                    ->groupBy(
+                'requests.user_id',
+                        'requests.title',
+                        'requests.description',
+                        'requests.status',
+                        'requests.created_at',
+                        'requests.updated_at',
+                        'requests.id',
+                        'users.image',
+                    )
+                    ->get();
+
+                return response()->json([
+                    'message' => 'all goodie',
+                    'requests' => $requests
+                ],  200);
+            } catch (Exception $e) {
+                return response()->json(
+                    [
+                        'message' => $e
+                    ],
+                    500
+                );
+            }
         }
     }
 
@@ -92,23 +130,24 @@ class RequestsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRequestsRequest $request,$id)
+    public function update(UpdateRequestsRequest $request, $id)
     {
         //
+
         try {
             $user = User::findOrFail($id);
             $user->update(['color' => $request->input('color')]);
-                        return response()->json([
+            return response()->json([
                 'status' => 200,
                 'message' => "success",
                 'user' => $user
-                
+
             ]);
         } catch (Exception $e) {
             return response()->json([
                 'status' => 500,
                 'message' => "server couldnt",
-                
+
             ]);
         }
     }
@@ -116,8 +155,24 @@ class RequestsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Requests $requests)
+    public function destroy(Request $request)
     {
-        //
+        try {
+            Requests::where('id', $request->input('id'))
+                ->where('user_id', $request->input('userId'))
+                ->delete();
+
+            $reqs = Requests::where('user_id', $request->input('userId'))->get();
+
+            return response()->json(
+                ['message' => 'Requests deleted successfully', 'requests' => $reqs],
+                200
+            );
+        } catch (Exception $e) {
+            return response()->json(
+                ['message' => 'somthing went wrong'],
+                500
+            );
+        }
     }
 }

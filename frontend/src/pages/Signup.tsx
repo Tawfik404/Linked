@@ -93,7 +93,7 @@ export default function Signup() {
 
 
       dispatch(setUser(resSignUp.user))
-      nav("/home")
+      nav("/")
     }
   }, [resSignUp, nav, dispatch])
 

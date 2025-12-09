@@ -67,7 +67,7 @@ export default function Login() {
     
 if(resLogin.status == 200){
   dispatch(setUser(resLogin.user))
-  nav("/home")
+  nav("/")
 }
   },[resLogin,nav,dispatch])
 

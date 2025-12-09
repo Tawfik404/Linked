@@ -8,24 +8,31 @@ import type { RootState } from '@/config/store'
 import { Spinner } from '@/components/ui/spinner'
 
 import { setRequest } from '@/config/sliceReq'
-export default function Requests() {
+export default function RequestsAd() {
     const user = useSelector((state: RootState) => state.user.user);
     const reqs = useSelector((state: RootState) => state.request.request);
     const dispatch = useDispatch();
+    
 
     const [isLoading, setIsLoading] = useState(false)
-
+    // interface tdata = {
+    //     id: Number,
+    //     title: String,
+    //     description: String,
+    //     status: String,
+    // }
     useEffect(() => {
         setIsLoading(true)
-        api.get("/requests", { params: { id: user.id } })
+        api.get("/requests")
             .then((res) => {
                 console.log(res.data);
                 const data = res.data.requests.reduce((req: object[], el: object) => {
                     req.push({
                         id: el.id,
+                        image: el.image,
                         title: el.title,
                         description: el.description,
-                        status: el.status
+                        status: el.status,
                     });
                     return req;
                 }, [])
@@ -39,14 +46,14 @@ export default function Requests() {
                 setIsLoading(false)
 
             })
-    }, [dispatch,user.id])
+    }, [dispatch, user.id])
 
 
 
     return (
         <div className={' place-items-center h-90'}>
-            <DataTable columns={columns} data={reqs} key={reqs.length} />
+            {isLoading? <Spinner/>:<DataTable columns={columns} data={reqs} key={reqs.length} />}
         </div>
-     )
+    )
 
 }

@@ -7,8 +7,10 @@ import { useNavigate, useLocation } from "react-router-dom"
 import useIsMobile from "useismobile";
 import './NavigationSec.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHouse as HouseSolid, faPaperPlane as PaperPlaneSolid, faUser as UserSolid } from '@fortawesome/free-solid-svg-icons'
-import { faHouse as HouseRegular, faPaperPlane as PaperPlaneRegular, faUser as UserRegular } from '@fortawesome/free-regular-svg-icons'
+import { faHouse as HouseSolid, faPaperPlane as PaperPlaneSolid, faUser as UserSolid,faChartBar as UsersSolid } from '@fortawesome/free-solid-svg-icons'
+import { faHouse as HouseRegular, faPaperPlane as PaperPlaneRegular, faUser as UserRegular,faChartBar as UsersRegular } from '@fortawesome/free-regular-svg-icons'
+
+
 import { useSelector } from "react-redux";
 import type { RootState } from "@/config/store";
 
@@ -21,27 +23,35 @@ export default function NavigationSec() {
   const location = useLocation().pathname
   const routes = [
     {
-      name: 'Home', route: '/',
+      name: 'Dashboard', route: '/admin/',
       icon: {
         solid: HouseSolid,
         regular: HouseRegular
       }
     },
     {
-      name: 'Requests', route: '/requests',
+      name: 'Requests', route: '/admin/requests',
       icon: {
         solid: PaperPlaneSolid,
         regular: PaperPlaneRegular
       }
     },
     {
-      name: 'Profile', route: '/profile',
+      name: 'Users', route: '/admin/users',
+      icon: {
+        solid: UsersSolid,
+        regular: UsersRegular
+      }
+    },
+    {
+      name: 'Profile', route: '/admin/profile',
       icon: {
         solid: UserSolid,
         regular: UserRegular
       }
     },
   ]
+
 
   return <>
     <div className="w-full grid grid-cols-1 justify-items-center" style={{ display: isMobile ? "" : "none" }}>
@@ -60,6 +70,8 @@ export default function NavigationSec() {
               icon={location === route.route ? route.icon.solid : route.icon.regular} 
               style={{color:location === route.route ? user.color : undefined}} />
               <span className="text-sm">{route.name}</span>
+
+              
             </NavigationMenuLink>
           ))}
         </NavigationMenuList>

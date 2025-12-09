@@ -13,13 +13,14 @@ import { useLocation, useNavigate } from "react-router-dom"
 import useIsMobile from "useismobile";
 import './NavigationSec.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHouse as HouseSolid, faPaperPlane as PaperPlaneSolid, faUser as UserSolid } from '@fortawesome/free-solid-svg-icons'
-import { faHouse as HouseRegular, faPaperPlane as PaperPlaneRegular, faUser as UserRegular } from '@fortawesome/free-regular-svg-icons'
+import { faHouse as HouseSolid, faPaperPlane as PaperPlaneSolid, faUser as UserSolid,faChartBar as UsersSolid } from '@fortawesome/free-solid-svg-icons'
+import { faHouse as HouseRegular, faPaperPlane as PaperPlaneRegular, faUser as UserRegular,faChartBar as UsersRegular } from '@fortawesome/free-regular-svg-icons'
+
 import { useSelector } from "react-redux";
 import type { RootState } from "@/config/store";
 
 
-export default function Index({ className }) {
+export default function IndexAd({ className }) {
   const isMobile = useIsMobile()
   console.log(isMobile);
   const user = useSelector((state: RootState) => state.user.user);
@@ -29,21 +30,28 @@ export default function Index({ className }) {
   console.log(location);
   const routes = [
     {
-      name: 'Home', route: '/',
+      name: 'Dashboard', route: '/admin/',
       icon: {
         solid: HouseSolid,
         regular: HouseRegular
       }
     },
     {
-      name: 'Requests', route: '/requests',
+      name: 'Requests', route: '/admin/requests',
       icon: {
         solid: PaperPlaneSolid,
         regular: PaperPlaneRegular
       }
     },
+        {
+          name: 'Users', route: '/admin/users',
+          icon: {
+            solid: UsersSolid,
+            regular: UsersRegular
+          }
+        },
     {
-      name: 'Profile', route: '/profile',
+      name: 'Profile', route: '/admin/profile',
       icon: {
         solid: UserSolid,
         regular: UserRegular
@@ -69,8 +77,8 @@ export default function Index({ className }) {
                     <SidebarMenuItem key={item.name} >
                       <SidebarMenuButton onClick={(e) => { e.preventDefault(); nav(item.route); }} style={{ backgroundColor: location === item.route ? "#e7e3e4d6" : undefined }}>
                         <a href={item.route} className="flex items-center gap-2" >
-                          <FontAwesomeIcon className="w-6 h-6" icon={location === item.route ? item.icon.solid : item.icon.regular} style={{ color: location === item.route ? user.color : undefined}}/>
-                          <span style={{ color: location === item.route ? user.color : undefined,fontWeight:600}}>{item.name}</span>
+                          <FontAwesomeIcon className="w-6 h-6" icon={location === item.route ? item.icon.solid : item.icon.regular} style={{ color: location === item.route ? user.color : undefined }} />
+                          <span style={{ color: location === item.route ? user.color : undefined, fontWeight: 600 }}>{item.name}</span>
                         </a>
                       </SidebarMenuButton>
                     </SidebarMenuItem>

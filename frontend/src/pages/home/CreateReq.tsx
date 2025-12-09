@@ -9,9 +9,7 @@ import api from "@/config/api";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/config/store";
 import { Spinner } from "@/components/ui/spinner";
-import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Toaster } from "@/components/ui/sonner"
 
 
 export default function CreateReq() {
@@ -21,7 +19,7 @@ export default function CreateReq() {
     const [success, setSuccess] = useState(false)
     const user = useSelector((state: RootState) => state.user.user);
     const handleReq = () => {
-        const userId = selector.id
+        const userId = user.id
         setIsLoading(true)
         if (request.title.length > 0 && request.description.length > 0) {
             api.post('/requests', { ...request, id: userId })
@@ -48,6 +46,7 @@ export default function CreateReq() {
     }
     return (<>
         <div className={'grid grid-cols-1 gap-5 place-items-center h-90'}>
+
             <h1 className="place-self-start ml-3" style={{ fontSize: "2em", fontWeight: "600",color:user.color }}>Make a request:</h1>
             <div className={isMobile ? "col-span-1 w-80 " : "col-span-1 w-100 "}>
                 <Label htmlFor="title" style={{ fontSize: "1.2em" }} className="mb-2">Title</Label>

@@ -3,6 +3,7 @@
 use App\Http\Controllers\LogInCon;
 use App\Http\Controllers\RequestsController;
 use App\Http\Controllers\SignUpCon;
+use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,5 +17,6 @@ Route::post('/signup', [SignUpCon::class, "index"]);
 Route::post('/login', [LogInCon::class, "index"]);
 
 Route::apiResource('/requests', RequestsController::class);
-Route::apiResource('/requests', RequestsController::class);
 Route::patch('/requests/{id}', [RequestsController::class,'update']);
+Route::delete('/requests', [RequestsController::class,'destroy']);
+Route::apiResource('/users', UsersController::class);

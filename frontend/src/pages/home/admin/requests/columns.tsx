@@ -3,11 +3,9 @@ import type { ColumnDef } from "@tanstack/react-table"
 import * as React from "react"
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
@@ -20,6 +18,7 @@ import { setRequest } from "@/config/sliceReq"
 
 export type RequestType = {
   id: number
+  image: string
   title: string
   description: string
   status: "pending" | "approved" | "rejected"
@@ -31,16 +30,23 @@ export const columns: ColumnDef<RequestType>[] = [
     header: "ID",
   },
   {
+    accessorKey: "image",
+    header: ()=><p className="text-center">User</p>,
+    cell: ({ row }) => {
+      return <img src={row.getValue('image')} alt="" className=" rounded-full w-15 " />
+    }
+  },
+  {
     accessorKey: "title",
-    header: "Title",
+    header: ()=><p className="text-center">Title</p>,
   },
   {
     accessorKey: "description",
-    header: "Description",
+    header:()=><p className="text-center">Description</p>,
   },
   {
     accessorKey: "status",
-    header: "Status",
+    header: ()=><p className="text-center">Status</p>,
   },
   {
     id: "actions",

@@ -1,22 +1,22 @@
 import { useSelector } from 'react-redux';
-import type { RootState } from '../config/store';
-import HeaderSec from './home/HeaderSec';
-import NavigationSec from './home/NavigationBar';
-import Index from './home/Index';
+import type { RootState } from '@/config/store';
+import HeaderSec from '../HeaderSec';
+import NavigationSec from './NavigationBar';
 import { Outlet, useNavigate } from 'react-router-dom';
 import useIsMobile from "useismobile";
 import { useEffect } from 'react';
-import IndexAd from './home/admin/IndexAd';
+import IndexAd from '../admin/IndexAd';
 
-export default function Home() {
+export default function HomeAd() {
+
     const user = useSelector((state: RootState) => state.user.user);
+
     console.log(user);
+
     const nav = useNavigate();
+
     useEffect(() => {
-        if (user.isAdmin == 1) {
-            nav("/admin")
-        }
-        
+
         if (Object.keys(user).length == 0) {
             nav("/login")
         }
@@ -29,9 +29,9 @@ export default function Home() {
         <HeaderSec />
         <NavigationSec />
         <div className='grid grid-cols-6 gap-3'  >
-            {/* User side */}
+            {/* Admin side */}
             <div className={isMobile ? '' : 'col-span-1'}>
-                <Index />
+                <IndexAd />
             </div>
 
             <div className={isMobile ? 'col-span-6' : 'col-span-5'}>
