@@ -14,7 +14,6 @@ import api from "@/config/api"
 import { toast } from "sonner"
 import { useDispatch, useSelector } from "react-redux"
 import type { RootState } from "@/config/store"
-import { setRequest } from "@/config/sliceReq"
 import { setUsers } from "@/config/sliceUsers"
 import { setUserEdit } from "@/config/sliceUserEdit"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -73,8 +72,6 @@ export const columns: ColumnDef<RequestType>[] = [
               console.log(row.original.id);
               api.get(`/users/${row.original.id}`)
                 .then((res) => {
-                  console.log(res.data);
-
                   dispatch(setUserEdit(res.data))
                   // TODO: add view user details componenet
                 })

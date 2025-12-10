@@ -15,6 +15,10 @@ import { toast } from "sonner"
 import { useDispatch, useSelector } from "react-redux"
 import type { RootState } from "@/config/store"
 import { setRequest } from "@/config/sliceReq"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleCheck ,faCircleXmark} from '@fortawesome/free-regular-svg-icons'
+
+
 
 export type RequestType = {
   id: number
@@ -67,10 +71,10 @@ export const columns: ColumnDef<RequestType>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem onClick={() => {
               console.log(row.original.id);
-              api.delete(`/requests`, {
+              api.post(`/requests`, {
                 params: {
-                  userId: user.id,
-                  id: row.original.id
+                  id: row.original.id,
+                  status: 'accepted'
                 }
               })
                 .then((res) => {
@@ -85,13 +89,47 @@ export const columns: ColumnDef<RequestType>[] = [
                     return req;
                   }, [])
                   dispatch(setRequest(data))
-                  toast.success("Request canceled")
+                  toast.success("Request accepted")
                 })
                 .catch((err) => {
                   console.log(err);
+                  toast.success("something went wrong")
                 })
             }}>
-              Cancel
+              <FontAwesomeIcon icon={faCircleCheck}/>
+              Accept
+            </DropdownMenuItem>
+
+
+                        <DropdownMenuItem onClick={() => {
+              console.log(row.original.id);
+              api.post(`/requests`, {
+                params: {
+                  id: row.original.id,
+                  status: 'rejected'
+                }
+              })
+                .then((res) => {
+                  console.log(res.data);
+                  const data = res.data.requests.reduce((req: object[], el: object) => {
+                    req.push({
+                      id: el.id,
+                      title: el.title,
+                      description: el.description,
+                      status: el.status
+                    });
+                    return req;
+                  }, [])
+                  dispatch(setRequest(data))
+                  toast.success("Request rejected")
+                })
+                .catch((err) => {
+                  console.log(err);
+                  toast.success("something went wrong")
+                })
+            }}>
+              <FontAwesomeIcon icon={faCircleXmark}/>
+              Reject
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

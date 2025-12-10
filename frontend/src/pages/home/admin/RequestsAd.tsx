@@ -15,12 +15,7 @@ export default function RequestsAd() {
     
 
     const [isLoading, setIsLoading] = useState(false)
-    // interface tdata = {
-    //     id: Number,
-    //     title: String,
-    //     description: String,
-    //     status: String,
-    // }
+
     useEffect(() => {
         setIsLoading(true)
         api.get("/requests")
@@ -52,7 +47,7 @@ export default function RequestsAd() {
 
     return (
         <div className={' place-items-center h-90'}>
-            {isLoading? <Spinner/>:<DataTable columns={columns} data={reqs} key={reqs.length} />}
+            {isLoading? <div className="flex items-center justify-center h-full"><Spinner className="size-7"/></div>:<DataTable columns={columns} data={reqs} key={reqs.length} />}
         </div>
     )
 
