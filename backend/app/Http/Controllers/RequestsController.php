@@ -18,23 +18,9 @@ class RequestsController extends Controller
      */
     public function index(Request $req)
     {
-        $id = $req->input("id");
+        // $id = $req->input("userId");
         //get by ID
-        if (!(isEmpty($id))) {
-            try {
 
-                $requests = Requests::where('user_id', $id)->get();
-
-                return response()->json([
-                    'message' => 'all good',
-                    'requests' => $requests
-                ], 200);
-            } catch (Exception $e) {
-                return response()->json([
-                    'message' => 'Something went wrong'
-                ], 500);
-            }
-        } else {
             //get everything
 
             try {
@@ -46,7 +32,7 @@ class RequestsController extends Controller
                     ->select('requests.*')
                     ->selectRaw('users.image')
                     ->groupBy(
-                'requests.user_id',
+                        'requests.user_id',
                         'requests.title',
                         'requests.description',
                         'requests.status',
@@ -58,7 +44,7 @@ class RequestsController extends Controller
                     ->get();
 
                 return response()->json([
-                    'message' => 'all goodie',
+                    'message' => 'all goodie 2',
                     'requests' => $requests
                 ],  200);
             } catch (Exception $e) {
@@ -69,7 +55,7 @@ class RequestsController extends Controller
                     500
                 );
             }
-        }
+        
     }
 
     /**
@@ -114,9 +100,22 @@ class RequestsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Requests $requests)
+    public function show(Request $req, $id)
     {
-        //
+        try {
+
+            $requests = Requests::where('user_id', $id)->get();
+
+            return response()->json([
+                'message' => 'all good',
+                'requests' => $requests,
+                's' => $id,
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'Something went wrong'
+            ], 500);
+        }
     }
 
     /**

@@ -1,9 +1,5 @@
 [
-  { "name": "neutral", "code": "#404040" }, 
-  { "name": "stone", "code": "#44403c" },   
-  { "name": "zinc", "code": "#3f3f46" },    
-  { "name": "slate", "code": "#334155" },   
-  { "name": "gray", "code": "#374151" },    
+  
   { "name": "red", "code": "#b91c1c" },     
   { "name": "orange", "code": "#c2410c" },  
   { "name": "amber", "code": "#b45309" },   

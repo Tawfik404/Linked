@@ -50,11 +50,11 @@ export default function Dashboard() {
 
 
             
-                stats.map((el) => {
-                    return (<Card className="@container/card ">
+                stats.map((el,i) => {
+                    return (<Card className="@container/card " key={i}>
                         <CardHeader>
                             <CardDescription >Total {el.name}</CardDescription>
-                            <CardTitle style={{ color: user.color}} className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+                            <CardTitle style={{ color: user.color}} className="text-4xl font-bold tabular-nums @[250px]/card:text-3xl">
                                 {el.num}
                             </CardTitle>
                             <CardAction>

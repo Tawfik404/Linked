@@ -58,18 +58,20 @@ class StatsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, $id,$status)
     {
         //
+        $req_id = (int) $id;
         try {
-            $req = Request::where('id',$request->input('id'));
-            $req->update(['status'=>'']);
+            //$req = Requests::where('id', $request->input('id'))->update(['status' => $request->input('status')]);
+            $req = Requests::findOrFail($req_id);
+            $req->update( ['status' => $status]);
             $requests = Requests::query()
                 ->leftJoin('users', 'requests.user_id', '=', 'users.id')
                 ->select('requests.*')
                 ->selectRaw('users.image')
                 ->groupBy(
-                    'requests.user_id',
+            'requests.user_id',
                     'requests.title',
                     'requests.description',
                     'requests.status',
@@ -79,6 +81,8 @@ class StatsController extends Controller
                     'users.image',
                 )
                 ->get();
+
+            return response()->json(['requests' => $requests], 200);
         } catch (Exception $e) {
             return response()->json(
                 ['message' => $e],

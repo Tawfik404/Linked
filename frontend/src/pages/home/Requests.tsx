@@ -17,7 +17,7 @@ export default function Requests() {
 
     useEffect(() => {
         setIsLoading(true)
-        api.get("/requests", { params: { id: user.id } })
+        api.get(`/requests/${user.id}`)
             .then((res) => {
                 console.log(res.data);
                 const data = res.data.requests.reduce((req: object[], el: object) => {

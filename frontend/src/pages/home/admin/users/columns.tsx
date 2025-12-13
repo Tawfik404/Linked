@@ -1,6 +1,5 @@
 
 import type { ColumnDef } from "@tanstack/react-table"
-import * as React from "react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,9 +17,19 @@ import { setUsers } from "@/config/sliceUsers"
 import { setUserEdit } from "@/config/sliceUserEdit"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashCan, faPenToSquare, faCircleInfo } from '@fortawesome/free-solid-svg-icons'
+import UsersDetails from "../UserDetails"
+import UserEdit from "../UserEdit"
 //import {  } from '@fortawesome/free-regular-svg-icons'
 
-
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { useState } from "react"
 
 
 export type RequestType = {
@@ -37,18 +46,18 @@ export const columns: ColumnDef<RequestType>[] = [
   },
   {
     accessorKey: "image",
-    header: ()=><p className="text-center">Image</p>,
+    header: () => <p className="text-center">Image</p>,
     cell: ({ row }) => {
-      return <img src={row.getValue('image')} alt="" className="rounded-full w-15 "  />
+      return <img src={row.getValue('image')} alt="" className="rounded-full w-15 " />
     }
   },
   {
     accessorKey: "name",
-    header: ()=><p className="text-center">Name</p>,
+    header: () => <p className="text-center">Name</p>,
   },
   {
     accessorKey: "requests",
-    header: ()=><p className="text-center">Requests</p>,
+    header: () => <p className="text-center">Requests</p>,
     cell: ({ row }) => <p className="text-center font-semibold">{row.getValue("requests")}</p>
   },
   {
@@ -58,7 +67,11 @@ export const columns: ColumnDef<RequestType>[] = [
       const request = row.original
       const user = useSelector((state: RootState) => state.user.user);
       const dispatch = useDispatch()
+      const [open1, setOpen1] = useState(false)
+      const [open2, setOpen2] = useState(false)
+const [activeRow, setActiveRow] = useState(null)
       return (
+        <>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
@@ -68,37 +81,20 @@ export const columns: ColumnDef<RequestType>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => {
-              console.log(row.original.id);
-              api.get(`/users/${row.original.id}`)
-                .then((res) => {
-                  dispatch(setUserEdit(res.data))
-                  // TODO: add view user details componenet
-                })
-                .catch((err) => {
-                  console.log(err);
-                })
-            }}>
-            <FontAwesomeIcon icon={faCircleInfo} />
-              Details
-            </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setOpen1(true)}>
+            <FontAwesomeIcon icon={faCircleInfo} className="mr-2" />
+            Details
+          </DropdownMenuItem>
 
-            <DropdownMenuItem onClick={() => {
-              console.log(row.original.id);
-              api.get(`/users/${row.original.id}`)
-                .then((res) => {
-                  console.log(res.data);
 
-                  dispatch(setUserEdit(res.data))
-                  //render edit user component
-                })
-                .catch((err) => {
-                  console.log(err);
-                })
-            }}>
-              <FontAwesomeIcon icon={faPenToSquare} />
-              Edit
-            </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setOpen2(true)}>
+            <FontAwesomeIcon icon={faPenToSquare} className="mr-2" />
+            Edit
+          </DropdownMenuItem>
+
+
+
+            
 
             <DropdownMenuItem
               onClick={() => {
@@ -128,6 +124,35 @@ export const columns: ColumnDef<RequestType>[] = [
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+
+
+{/* Show user details */}
+      <Dialog open={open1} onOpenChange={setOpen1}>
+        <DialogContent className="w-auto">
+          <DialogHeader>
+            <DialogTitle style={{ color:user.color ,fontWeight:600,fontSize:"1.4em"}}>User Info</DialogTitle>
+            <DialogDescription className="flex justify-center">
+              <UsersDetails id={row.original.id}/>
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+
+
+
+
+{/* Edit user details */}
+      <Dialog open={open2} onOpenChange={setOpen2}>
+        <DialogContent className="w-auto">
+          <DialogHeader>
+            <DialogTitle style={{ color:user.color ,fontWeight:600,fontSize:"1.4em"}}>Edit user</DialogTitle>
+            <DialogDescription className="flex justify-center">
+              <UserEdit id={row.original.id}/>
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+        </>
       )
     },
   },

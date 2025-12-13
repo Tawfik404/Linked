@@ -1,6 +1,5 @@
 
 import type { ColumnDef } from "@tanstack/react-table"
-import * as React from "react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,9 +13,9 @@ import api from "@/config/api"
 import { toast } from "sonner"
 import { useDispatch, useSelector } from "react-redux"
 import type { RootState } from "@/config/store"
-import { setRequest } from "@/config/sliceReq"
+import { setRequests } from "@/config/sliceReqs"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleCheck ,faCircleXmark} from '@fortawesome/free-regular-svg-icons'
+import { faCircleCheck, faCircleXmark ,faHourglassHalf} from '@fortawesome/free-regular-svg-icons'
 
 
 
@@ -25,7 +24,7 @@ export type RequestType = {
   image: string
   title: string
   description: string
-  status: "pending" | "approved" | "rejected"
+  status: "Pending" | "Accepted" | "Rejected"
 }
 
 export const columns: ColumnDef<RequestType>[] = [
@@ -35,29 +34,38 @@ export const columns: ColumnDef<RequestType>[] = [
   },
   {
     accessorKey: "image",
-    header: ()=><p className="text-center">User</p>,
+    header: () => <p className="text-center">User</p>,
     cell: ({ row }) => {
       return <img src={row.getValue('image')} alt="" className=" rounded-full w-15 " />
     }
   },
   {
     accessorKey: "title",
-    header: ()=><p className="text-center">Title</p>,
+    header: () => <p className="text-center">Title</p>,
   },
   {
     accessorKey: "description",
-    header:()=><p className="text-center">Description</p>,
+    header: () => <p className="text-center">Description</p>,
   },
   {
     accessorKey: "status",
-    header: ()=><p className="text-center">Status</p>,
+    header: () => <p className="text-center">Status</p>,
+    cell:({row})=>{
+      return <div className="text-center">
+      <FontAwesomeIcon 
+      color={row.original.status == "Accepted" ?'darkcyan': row.original.status == "Rejected"? 'crimson':'grey'}
+      icon={row.original.status == "Accepted" ?faCircleCheck: row.original.status == "Rejected"? faCircleXmark:faHourglassHalf}
+      style={{ fontSize:"1.3em" }}
+      />
+      </div>
+    }
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const request = row.original
       const user = useSelector((state: RootState) => state.user.user);
+      const req = useSelector((state: RootState) => state.requests.requests);
       const dispatch = useDispatch()
       return (
         <DropdownMenu>
@@ -70,57 +78,50 @@ export const columns: ColumnDef<RequestType>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem onClick={() => {
-              console.log(row.original.id);
-              api.post(`/requests`, {
-                params: {
-                  id: row.original.id,
-                  status: 'accepted'
-                }
-              })
+                  console.log('1',req);
+
+              api.patch(`/stats/${row.original.id}/Accepted`)
                 .then((res) => {
-                  console.log(res.data);
-                  const data = res.data.requests.reduce((req: object[], el: object) => {
-                    req.push({
+                  const data = res.data.requests.reduce((r: object[], el: object) => {
+                    r.push({
                       id: el.id,
+                      image: el.image,
                       title: el.title,
                       description: el.description,
-                      status: el.status
+                      status: el.status,
                     });
-                    return req;
+                    return r;
                   }, [])
-                  dispatch(setRequest(data))
+                  dispatch(setRequests(data))
+                  console.log('2',data);
                   toast.success("Request accepted")
                 })
                 .catch((err) => {
                   console.log(err);
-                  toast.success("something went wrong")
+                  toast.warning("something went wrong")
                 })
             }}>
-              <FontAwesomeIcon icon={faCircleCheck}/>
+              <FontAwesomeIcon icon={faCircleCheck} />
               Accept
             </DropdownMenuItem>
 
 
-                        <DropdownMenuItem onClick={() => {
+            <DropdownMenuItem onClick={() => {
               console.log(row.original.id);
-              api.post(`/requests`, {
-                params: {
-                  id: row.original.id,
-                  status: 'rejected'
-                }
-              })
+              api.patch(`/stats/${row.original.id}/Rejected`)
                 .then((res) => {
                   console.log(res.data);
                   const data = res.data.requests.reduce((req: object[], el: object) => {
                     req.push({
                       id: el.id,
+                      image: el.image,
                       title: el.title,
                       description: el.description,
-                      status: el.status
+                      status: el.status,
                     });
                     return req;
                   }, [])
-                  dispatch(setRequest(data))
+                  dispatch(setRequests(data))
                   toast.success("Request rejected")
                 })
                 .catch((err) => {
@@ -128,7 +129,7 @@ export const columns: ColumnDef<RequestType>[] = [
                   toast.success("something went wrong")
                 })
             }}>
-              <FontAwesomeIcon icon={faCircleXmark}/>
+              <FontAwesomeIcon icon={faCircleXmark} />
               Reject
             </DropdownMenuItem>
           </DropdownMenuContent>

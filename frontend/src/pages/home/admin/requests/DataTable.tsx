@@ -1,5 +1,5 @@
 import type { ColumnDef} from "@tanstack/react-table"
-
+import { useEffect } from "react"
 import {
   flexRender,
   getCoreRowModel,
@@ -34,7 +34,10 @@ export default function DataTable<TData, TValue>({
 
     const user = useSelector((state: RootState) => state.user.user);
 
-  
+  useEffect(() => {
+  console.log("🔥 DataTable received NEW DATA:", data);
+}, [data]);
+
 
   return (
     <div className="overflow-hidden rounded-md border">

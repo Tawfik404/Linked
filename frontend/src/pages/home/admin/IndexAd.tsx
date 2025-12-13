@@ -30,7 +30,7 @@ export default function IndexAd({ className }) {
   console.log(location);
   const routes = [
     {
-      name: 'Dashboard', route: '/admin/',
+      name: 'Dashboard', route: '/admin',
       icon: {
         solid: HouseSolid,
         regular: HouseRegular

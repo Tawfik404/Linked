@@ -7,13 +7,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import type { RootState } from '@/config/store'
 import { Spinner } from '@/components/ui/spinner'
 
-import { setRequest } from '@/config/sliceReq'
+import { setRequests } from '@/config/sliceReqs'
 export default function RequestsAd() {
     const user = useSelector((state: RootState) => state.user.user);
-    const reqs = useSelector((state: RootState) => state.request.request);
+    const reqs = useSelector((state: RootState) => state.requests.requests);
     const dispatch = useDispatch();
     
-
     const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
@@ -32,7 +31,8 @@ export default function RequestsAd() {
                     return req;
                 }, [])
 
-                dispatch(setRequest(data))
+                dispatch(setRequests(data))
+console.log(reqs);
 
                 setIsLoading(false)
             })
@@ -47,7 +47,9 @@ export default function RequestsAd() {
 
     return (
         <div className={' place-items-center h-90'}>
-            {isLoading? <div className="flex items-center justify-center h-full"><Spinner className="size-7"/></div>:<DataTable columns={columns} data={reqs} key={reqs.length} />}
+             <DataTable columns={columns} data={reqs} key={JSON.stringify(reqs)} />
+
+            {/* <RequestsTable data={reqs}/> */}
         </div>
     )
 

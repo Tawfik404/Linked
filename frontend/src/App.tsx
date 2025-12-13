@@ -7,10 +7,10 @@ import { Toaster } from "@/components/ui/sonner"
 function App({ children }) {
 
   return (
-    <>
+    <div>
       {children}
       <Toaster />
-    </>
+    </div>
   )
 }
 

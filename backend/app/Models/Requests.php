@@ -10,6 +10,6 @@ class Requests extends Model
     /** @use HasFactory<\Database\Factories\RequestsFactory> */
     use HasFactory;
 
-        protected $fillable = ['title', 'description'];
+        protected $fillable = ['title', 'description','status'];
 
 }
