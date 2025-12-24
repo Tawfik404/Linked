@@ -6,6 +6,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import useIsMobile from "useismobile";
 import { useEffect } from 'react';
 import IndexAd from '../admin/IndexAd';
+import Footer from '../Footer';
 
 export default function HomeAd() {
 
@@ -25,7 +26,10 @@ export default function HomeAd() {
 
     const isMobile = useIsMobile()
 
-    return (<div className=' w-full'>
+    return (<div >
+
+        <div className=' w-full'>
+
         <HeaderSec />
         <NavigationSec />
         <div className='grid grid-cols-6 gap-3'  >
@@ -38,6 +42,8 @@ export default function HomeAd() {
                 <Outlet />
             </div>
         </div>
+        </div>
+        <Footer/>
     </div>)
 
 }

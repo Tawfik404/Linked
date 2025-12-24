@@ -53,15 +53,22 @@ export default function Index({ className }) {
 
 
   return <>
-    <div className={"w-full grid grid-cols-1 justify-items-center" + { className }} style={{ display: isMobile ? "none" : "" }}>
-      <SidebarProvider>
+    <div className={"w-full  grid grid-cols-1 justify-items-center" + { className }} style={{ display: isMobile ? "none" : "" }}>
+      <SidebarProvider >
 
-        <Sidebar collapsible="none" style={{ borderTopRightRadius: "5px", borderColor: "#e7e3e458", borderWidth: "1px" }}>
+        <Sidebar
+        className="h-full"
+          collapsible="none"
+          style={{
+            borderTopRightRadius: "5px",
+            borderColor: "#e7e3e458",
+            borderWidth: "1px"
+          }}>
           <SidebarHeader>
             <h1 className="text-lg font-bold">Index</h1>
           </SidebarHeader>
 
-          <SidebarContent>
+          <SidebarContent >
             <SidebarGroup>
               <SidebarGroupContent>
                 <SidebarMenu>
@@ -69,8 +76,8 @@ export default function Index({ className }) {
                     <SidebarMenuItem key={item.name} >
                       <SidebarMenuButton onClick={(e) => { e.preventDefault(); nav(item.route); }} style={{ backgroundColor: location === item.route ? "#e7e3e4d6" : undefined }}>
                         <a href={item.route} className="flex items-center gap-2" >
-                          <FontAwesomeIcon className="w-6 h-6" icon={location === item.route ? item.icon.solid : item.icon.regular} style={{ color: location === item.route ? user.color : undefined}}/>
-                          <span style={{ color: location === item.route ? user.color : undefined,fontWeight:600}}>{item.name}</span>
+                          <FontAwesomeIcon className="w-6 h-6" icon={location === item.route ? item.icon.solid : item.icon.regular} style={{ color: location === item.route ? user.color : undefined }} />
+                          <span style={{ color: location === item.route ? user.color : undefined, fontWeight: 600 }}>{item.name}</span>
                         </a>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
