@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { setUser } from '../config/slice.ts';
 import type { AppDispatch } from '../config/store';
+import { motion } from "motion/react"
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
@@ -74,8 +75,14 @@ if(resLogin.status == 200){
 
   return (
     <div className="flex flex-col justify-center  h-screen">
+<motion.div 
+initial={{ y: -100 }} 
+animate={{ y: 0 }}
+transition={{ type: "spring", stiffness: 100 }}
+className="w-full max-w-sm self-center"
+>
 
-      <Card className="w-full max-w-sm self-center">
+      <Card >
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
           <CardDescription>
@@ -119,6 +126,7 @@ if(resLogin.status == 200){
           </Button>
         </CardFooter>
       </Card>
+</motion.div>
     </div>
   )
 }

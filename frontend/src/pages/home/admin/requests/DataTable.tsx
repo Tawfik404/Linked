@@ -34,13 +34,11 @@ export default function DataTable<TData, TValue>({
 
     const user = useSelector((state: RootState) => state.user.user);
 
-  useEffect(() => {
-  console.log("🔥 DataTable received NEW DATA:", data);
-}, [data]);
+
 
 
   return (
-    <div className="overflow-hidden rounded-md border">
+    <div className="overflow-hidden rounded-md border w-125 text-center">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

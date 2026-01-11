@@ -10,13 +10,12 @@ import { useSelector } from "react-redux";
 import type { RootState } from "@/config/store";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "sonner";
-
+import { motion } from "motion/react";
 
 export default function CreateReq() {
     const isMobile = useIsMobile();
     const [isLoading, setIsLoading] = useState(false)
     const [request, setRequest] = useState({ title: "", description: "" })
-    const [success, setSuccess] = useState(false)
     const user = useSelector((state: RootState) => state.user.user);
     const handleReq = () => {
         const userId = user.id
@@ -33,7 +32,6 @@ export default function CreateReq() {
                     console.log(err);
                     setIsLoading(false)
                     setIsLoading(false)
-                    setSuccess(false)
                     toast.warning("Something went wrong,try again")
                 })
         }
@@ -42,13 +40,19 @@ export default function CreateReq() {
             toast.warning("Title and description should not be empty")
         }
 
-        
+
     }
-    return (<>
+    return (
         <div className={'grid grid-cols-1 gap-5 place-items-center h-90'}>
 
-            <h1 className="place-self-start ml-3" style={{ fontSize: "2em", fontWeight: "600",color:user.color }}>Make a request:</h1>
-            <div className={isMobile ? "col-span-1 w-80 " : "col-span-1 w-100 "}>
+            <h1 className="place-self-start ml-3" style={{ fontSize: "2em", fontWeight: "600", color: user.color }}>Make a request:</h1>
+            <motion.div
+                initial={{ y: 100, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ type: "spring", stiffness: 100 }}
+                className={isMobile ? "col-span-1 w-80 " : "col-span-1 w-100 "}
+            >
+
                 <Label htmlFor="title" style={{ fontSize: "1.2em" }} className="mb-2">Title</Label>
                 <Input type="text" id="title" placeholder="Title" className="mb-4"
                     value={request.title}
@@ -68,15 +72,12 @@ export default function CreateReq() {
                         required
                     />
                     <InputGroupAddon align="block-end">
-                        <InputGroupButton className="ml-auto" size="sm" variant="default" onClick={handleReq} style={{ background:user.color }}>
+                        <InputGroupButton className="ml-auto" size="sm" variant="default" onClick={handleReq} style={{ background: user.color }}>
                             Request {isLoading ? <Spinner /> : <SendHorizontal />}
                         </InputGroupButton>
                     </InputGroupAddon>
                 </InputGroup>
-            </div>
-
-
-
+            </motion.div>
         </div>
-    </>)
+    )
 }

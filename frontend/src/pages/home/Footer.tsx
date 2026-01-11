@@ -7,7 +7,6 @@ import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
 
 export default function Footer() {
     const user = useSelector((state: RootState) => state.user.user);
-    const redirect = location;
     return (
         <div className=" pt-3 mx-0.5 text-center" style={{
             backgroundColor: user.color,

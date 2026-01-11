@@ -1,4 +1,3 @@
-
 import type { ColumnDef } from "@tanstack/react-table"
 import {
   DropdownMenu,
@@ -34,7 +33,7 @@ export const columns: ColumnDef<RequestType>[] = [
   },
   {
     accessorKey: "image",
-    header: () => <p className="text-center">User</p>,
+    header: () => <p className="">User</p>,
     cell: ({ row }) => {
       return <img src={row.getValue('image')} alt="" className=" rounded-full w-15 " />
     }
@@ -64,8 +63,6 @@ export const columns: ColumnDef<RequestType>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const user = useSelector((state: RootState) => state.user.user);
-      const req = useSelector((state: RootState) => state.requests.requests);
       const dispatch = useDispatch()
       return (
         <DropdownMenu>
@@ -78,7 +75,6 @@ export const columns: ColumnDef<RequestType>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem onClick={() => {
-                  console.log('1',req);
 
               api.patch(`/stats/${row.original.id}/Accepted`)
                 .then((res) => {
@@ -93,7 +89,6 @@ export const columns: ColumnDef<RequestType>[] = [
                     return r;
                   }, [])
                   dispatch(setRequests(data))
-                  console.log('2',data);
                   toast.success("Request accepted")
                 })
                 .catch((err) => {

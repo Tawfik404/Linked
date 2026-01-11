@@ -1,10 +1,8 @@
 import { Button } from "@/components/ui/button"
 import {
-  Card,
   CardContent,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -40,10 +38,6 @@ import themes from "@/assets/themes.json";
 import api from "@/config/api.ts";
 import { useNavigate } from "react-router-dom"
 
-import { useDispatch } from 'react-redux';
-import { setUser } from '@/config/slice.ts';
-//import { useAppSelector } from '../hooks/useAppSelector.ts'
-import type { AppDispatch } from '@/config/store';
 import { Spinner } from "@/components/ui/spinner"
 import { toast } from "sonner"
 
@@ -104,7 +98,6 @@ export default function UserEdit({id}) {
   };
 
 
-  const nav = useNavigate()
   //const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -141,23 +134,6 @@ export default function UserEdit({id}) {
       setErrorMsg("Invalid date of birth")
       return
     }
-
-
-    // else if (userInfo.country.length == 0) {
-    //   setErrorMsg("Please choose the country")
-    //   return
-    // }
-
-    // else if (userInfo.currency.length == 0) {
-    //   setErrorMsg("Please choose the currency")
-    //   return
-    // }
-
-    // else if (userInfo.color.length == 0) {
-    //   setErrorMsg("Please choose the theme color")
-    //   return
-    // }
-    
 
 
     else {

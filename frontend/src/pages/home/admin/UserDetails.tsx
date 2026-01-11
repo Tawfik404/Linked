@@ -1,26 +1,6 @@
 import api from "@/config/api"
 import { useEffect, useState } from "react"
-// import { useDispatch, useSelector } from "react-redux"
-// import { setUsers } from "@/config/sliceUsers";
-// import {
-//   Dialog,
-//   DialogContent,
-//   DialogDescription,
-//   DialogHeader,
-//   DialogTitle,
-//   DialogTrigger,
-// } from "@/components/ui/dialog"
-// import { Label } from "@radix-ui/react-label";
-// import { Input } from "@/components/ui/input";
-// import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-// import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-// import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
-// import { Button } from "@/components/ui/button";
-// import { Calendar, ChevronDownIcon } from "lucide-react";
-// import {Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@radix-ui/react-select";
 import countries from '@/assets/country-flag.json'
-// import currencies from '@/assets/Currency.json'
-// import themes from '@/assets/themes.json'
 
 
 export default function UsersDetails({ id }) {
@@ -34,7 +14,6 @@ export default function UsersDetails({ id }) {
      currency: "MAD",
      color: "#4F46E5",
  });
-  //const [color,setColor] = useState()
   useEffect(() => {
     api.get(`/user/${id}`)
       .then((res) => {
@@ -45,7 +24,7 @@ export default function UsersDetails({ id }) {
         console.log(err);
       })
   }, [id])
-  // const user = 
+
   return (
     <>
  <div className="w-full max-w-sm self-center"

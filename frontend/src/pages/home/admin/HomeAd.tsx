@@ -38,7 +38,7 @@ export default function HomeAd() {
                 <IndexAd />
             </div>
 
-            <div className={isMobile ? 'col-span-6' : 'col-span-5'}>
+            <div className={isMobile ? 'col-span-6' : 'col-span-5 '}>
                 <Outlet />
             </div>
         </div>

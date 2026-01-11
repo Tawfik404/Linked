@@ -42,9 +42,9 @@ import { useNavigate } from "react-router-dom"
 
 import { useDispatch } from 'react-redux';
 import { setUser } from '../config/slice.ts';
-//import { useAppSelector } from '../hooks/useAppSelector.ts'
 import type { AppDispatch } from '../config/store';
 import { Spinner } from "@/components/ui/spinner"
+import { motion } from "motion/react"
 
 export default function Signup() {
 
@@ -53,7 +53,7 @@ export default function Signup() {
   const [img, setImg] = useState(null);
   const [imgFile, setImgFile] = useState(null);
   const imgRef = useRef(null);
-  const [resSignUp, setResSignUp]   = useState(null)
+  const [resSignUp, setResSignUp] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
 
   const [userInfo, setUserInfo] = useState({
@@ -70,7 +70,7 @@ export default function Signup() {
 
   const [errorMsg, setErrorMsg] = useState("");
 
-  const handleFileChange = async (e)  => {
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
@@ -138,7 +138,7 @@ export default function Signup() {
       setErrorMsg("Please choose the theme color")
       return
     }
-    
+
 
 
     else {
@@ -179,191 +179,199 @@ export default function Signup() {
 
 
   return (
-    <div className="flex flex-col justify-center  h-screen">
-      <Card className="w-full max-w-sm self-center">
-        <CardHeader>
+    <div className="flex flex-col justify-center  h-screen text-center">
+      <motion.div
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ type: "spring", stiffness: 100 }}
+        className="w-full max-w-sm self-center"
+      >
 
-          <CardTitle style={{ fontSize: 20, marginBottom: 5, fontWeight: "bold", color: userInfo.color }}>Make an Account</CardTitle>
+        <Card >
+          <CardHeader>
+
+            <CardTitle style={{ fontSize: 20, marginBottom: 5, fontWeight: "bold", color: userInfo.color }}>Make an Account</CardTitle>
 
 
-          <Avatar className="w-25 h-auto flex-col  justify-self-center" onClick={() => {
-            if (imgRef.current) {
-              imgRef.current.click()
-            }
-          }}>
-            <input onChange={handleFileChange} ref={imgRef} type="file" alt="img" placeholder="img" className="h-25" style={{ display: "none" }} required />
-            <AvatarImage className="justify-self-center" src={img ? img : "https://github.com/shadcn.png"} alt="@shadcn" />
-            <AvatarFallback>Profile</AvatarFallback>
-          </Avatar>
+            <Avatar className="w-25 h-auto flex-col  justify-self-center" onClick={() => {
+              if (imgRef.current) {
+                imgRef.current.click()
+              }
+            }}>
+              <input onChange={handleFileChange} ref={imgRef} type="file" alt="img" placeholder="img" className="h-25" style={{ display: "none" }} required />
+              <AvatarImage className="justify-self-center" src={img ? img : "https://github.com/shadcn.png"} alt="@shadcn" />
+              <AvatarFallback>Profile</AvatarFallback>
+            </Avatar>
 
-        </CardHeader>
-        <CardContent>
-          <form>
-            <div className="flex flex-col gap-6">
-              <div className="grid grid-cols-2 gap-4">
+          </CardHeader>
+          <CardContent>
+            <form>
+              <div className="flex flex-col gap-6">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="firstname">Nom</Label>
+                    <Input
+                      id="firstname"
+                      type="name"
+                      placeholder="Mike"
+                      required
+                      value={userInfo.firstname}
+                      onChange={(e) => { setUserInfo({ ...userInfo, firstname: e.target.value }) }}
+
+                    />
+                  </div>
+
+                  <div className="grid gap-2">
+                    <Label htmlFor="lastname">Prenom</Label>
+                    <Input
+                      id="lastname"
+                      type="name"
+                      placeholder="Tyson"
+                      required
+                      onChange={(e) => { setUserInfo({ ...userInfo, lastname: e.target.value }) }}
+                      value={userInfo.lastname}
+
+                    />
+                  </div>
+                </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="firstname">Nom</Label>
+                  <Label htmlFor="email">Email</Label>
                   <Input
-                    id="firstname"
-                    type="name"
-                    placeholder="Mike"
+                    id="email"
+                    type="email"
+                    placeholder="email@example.com"
                     required
-                    value={userInfo.firstname}
-                    onChange={(e) => { setUserInfo({ ...userInfo, firstname: e.target.value }) }}
+                    onChange={(e) => { setUserInfo({ ...userInfo, email: e.target.value }) }}
+                    value={userInfo.email}
 
                   />
                 </div>
-
                 <div className="grid gap-2">
-                  <Label htmlFor="lastname">Prenom</Label>
-                  <Input
-                    id="lastname"
-                    type="name"
-                    placeholder="Tyson"
-                    required
-                    onChange={(e) => { setUserInfo({ ...userInfo, lastname: e.target.value }) }}
-                    value={userInfo.lastname}
+                  <div className="flex items-center">
+                    <Label htmlFor="password">Password</Label>
 
+                  </div>
+                  <Input id="password" type="password" required
+                    placeholder="*******"
+                    value={userInfo.password}
+                    onChange={(e) => { setUserInfo({ ...userInfo, password: e.target.value }) }}
                   />
                 </div>
               </div>
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="email@example.com"
-                  required
-                  onChange={(e) => { setUserInfo({ ...userInfo, email: e.target.value }) }}
-                  value={userInfo.email}
-
-                />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
-
-                </div>
-                <Input id="password" type="password" required
-                placeholder="*******"
-                  value={userInfo.password}
-                  onChange={(e) => { setUserInfo({ ...userInfo, password: e.target.value }) }}
-                />
-              </div>
-            </div>
 
 
-            <Label htmlFor="date" className="my-2">
-              Date of birth
-            </Label>
-            <Popover open={open} onOpenChange={setOpen}>
-              <PopoverTrigger asChild className="flex content-start">
-                <Button
-                  variant="outline"
-                  id="date"
-                  className="w-48 justify-between font-normal"
-                >
-                  {date ? date.toLocaleDateString() : "Select date"}
-                  <ChevronDownIcon />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto overflow-hidden p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={date}
-                  captionLayout="dropdown"
-                  onSelect={(date) => {
-                    setDate(date)
-                    setOpen(false)
-                    setUserInfo({ ...userInfo, date: date?.toLocaleDateString() })
-                  }}
-                />
-              </PopoverContent>
-            </Popover>
-
-            <Label htmlFor="country" className="my-2">
-              Pays
-            </Label>
-            <Select
-              value={userInfo.country}
-              onValueChange={(country) => { setUserInfo({ ...userInfo, country: country }) }}
-
-            >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {countries.map((country) => {
-                  return <SelectItem key={country.country} value={country.country}>
-                    <img alt={country.code} src={country.flag} className="w-5" />
-                    {country.country}</SelectItem>
-                })}
-              </SelectContent>
-            </Select>
-
-            <Label htmlFor="currency" className="my-2">
-              Devise
-            </Label>
-            <Select
-              value={userInfo.currency}
-              onValueChange={(currency) => { setUserInfo({ ...userInfo, currency: currency }) }}
-            >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-
-                {Object.values(currencies).map((currency) => (
-                  <SelectItem key={currency.code} value={currency.code}>
-                    {currency.name} 
-                  </SelectItem>
-                ))}
-
-
-              </SelectContent>
-            </Select>
-
-
-            <Select
-              value={userInfo.color}
-              onValueChange={(color) => { setUserInfo({ ...userInfo, color: color }) }}
-            >
-
-              <Label htmlFor="color" className="my-2">
-                Color
+              <Label htmlFor="date" className="my-2">
+                Date of birth
               </Label>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Theme Color" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Colors</SelectLabel>
-                  {themes.map((color) => {
-                    return <SelectItem key={color.code} className="flex justify-items-end" value={color.code}>
-                      <div style={{ backgroundColor: color.code, color: "white", borderRadius: "50%" }} className="w-5 h-5"></div>
-                      {color.name}
-                    </SelectItem>
+              <Popover open={open} onOpenChange={setOpen}>
+                <PopoverTrigger asChild className="flex content-start">
+                  <Button
+                    variant="outline"
+                    id="date"
+                    className="w-48 justify-between font-normal"
+                  >
+                    {date ? date.toLocaleDateString() : "Select date"}
+                    <ChevronDownIcon />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    captionLayout="dropdown"
+                    onSelect={(date) => {
+                      setDate(date)
+                      setOpen(false)
+                      setUserInfo({ ...userInfo, date: date?.toLocaleDateString() })
+                    }}
+                  />
+                </PopoverContent>
+              </Popover>
+
+              <Label htmlFor="country" className="my-2">
+                Pays
+              </Label>
+              <Select
+                value={userInfo.country}
+                onValueChange={(country) => { setUserInfo({ ...userInfo, country: country }) }}
+
+              >
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {countries.map((country) => {
+                    return <SelectItem key={country.country} value={country.country}>
+                      <img alt={country.code} src={country.flag} className="w-5" />
+                      {country.country}</SelectItem>
                   })}
+                </SelectContent>
+              </Select>
+
+              <Label htmlFor="currency" className="my-2">
+                Devise
+              </Label>
+              <Select
+                value={userInfo.currency}
+                onValueChange={(currency) => { setUserInfo({ ...userInfo, currency: currency }) }}
+              >
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+
+                  {Object.values(currencies).map((currency) => (
+                    <SelectItem key={currency.code} value={currency.code}>
+                      {currency.name}
+                    </SelectItem>
+                  ))}
 
 
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            <p className="mt-3" style={{ color: userInfo.color }}>{errorMsg}</p>
-          </form>
-        </CardContent>
-        <CardFooter className="flex-col gap-2">
-          <Button type="submit" className='w-full' onClick={handlUserInfo} style={{ backgroundColor: userInfo.color }}>
+                </SelectContent>
+              </Select>
 
-            Sign{isLoading ? "ing" : ""} up{isLoading ? <Spinner /> : ""}
 
-          </Button>
-          <Button variant="outline" className="w-full" style={{ color: userInfo.color }} onClick={() => { nav("/login") }}>
-            Login
-          </Button>
+              <Select
+                value={userInfo.color}
+                onValueChange={(color) => { setUserInfo({ ...userInfo, color: color }) }}
+              >
 
-        </CardFooter>
-      </Card>
+                <Label htmlFor="color" className="my-2">
+                  Color
+                </Label>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Theme Color" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Colors</SelectLabel>
+                    {themes.map((color) => {
+                      return <SelectItem key={color.code} className="flex justify-items-end" value={color.code}>
+                        <div style={{ backgroundColor: color.code, color: "white", borderRadius: "50%" }} className="w-5 h-5"></div>
+                        {color.name}
+                      </SelectItem>
+                    })}
+
+
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              <p className="mt-3" style={{ color: userInfo.color }}>{errorMsg}</p>
+            </form>
+          </CardContent>
+          <CardFooter className="flex-col gap-2">
+            <Button type="submit" className='w-full' onClick={handlUserInfo} style={{ backgroundColor: userInfo.color }}>
+
+              Sign{isLoading ? "ing" : ""} up{isLoading ? <Spinner /> : ""}
+
+            </Button>
+            <Button variant="outline" className="w-full" style={{ color: userInfo.color }} onClick={() => { nav("/login") }}>
+              Login
+            </Button>
+
+          </CardFooter>
+        </Card>
+      </motion.div>
 
     </div>
   )

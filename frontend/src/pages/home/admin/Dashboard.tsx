@@ -4,6 +4,7 @@ import api from "@/config/api";
 import type { RootState } from "@/config/store";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { motion } from "motion/react";
 
 //list of cards
 //totall number users
@@ -43,7 +44,12 @@ export default function Dashboard() {
 
     const user = useSelector((state: RootState) => state.user.user)
 
-    return <div className=" content-center h-140 grid min-md:grid-cols-3 max-md:grid-cols-3 max-sm:grid-cols-2 *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
+    return <>
+
+    <h1 style={{ fontSize:"2em",fontWeight:"600",color:user.color }}>Dashboard</h1>
+    <motion.div             initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 100 ,delay:0.5}} className=" content-center h-140 grid min-md:grid-cols-3 max-md:grid-cols-3 max-sm:grid-cols-2 *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
         {isLoading ? <div className="col-span-full flex items-center justify-center h-full"><Spinner className="size-7"/></div> :
 
 
@@ -51,7 +57,8 @@ export default function Dashboard() {
 
             
                 stats.map((el,i) => {
-                    return (<Card className="@container/card " key={i}>
+                    return (
+                    <Card className="@container/card " key={i}>
                         <CardHeader>
                             <CardDescription >Total {el.name}</CardDescription>
                             <CardTitle style={{ color: user.color}} className="text-4xl font-bold tabular-nums @[250px]/card:text-3xl">
@@ -69,5 +76,6 @@ export default function Dashboard() {
                 })
             
         }
-    </div>
+    </motion.div>
+    </>
 }

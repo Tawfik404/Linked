@@ -6,7 +6,6 @@ import Index from './home/Index';
 import { Outlet, useNavigate } from 'react-router-dom';
 import useIsMobile from "useismobile";
 import { useEffect } from 'react';
-import IndexAd from './home/admin/IndexAd';
 import Footer from './home/Footer';
 
 export default function Home() {

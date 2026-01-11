@@ -5,7 +5,7 @@ import DataTable from "../requests/DataTable";
 import { columns } from "./users/columns";
 import type { RootState } from "@/config/store";
 import { setUsers } from "@/config/sliceUsers";
-
+import { motion } from "motion/react"
 export default function Users() {
     const dis = useDispatch();
     const users = useSelector((state: RootState) => state.users.users)
@@ -14,13 +14,13 @@ export default function Users() {
             .then((res) => {
                 console.log(res.data);
                 const data = res.data.users.reduce((req: object[], el: object) => {
-                    if(el.isAdmin == 0 ){
-                     req.push({
-                        id: el.id,
-                        image: el.image,
-                        name: `${el.firstname} ${el.lastname}`,
-                        requests: el.requests
-                    });   
+                    if (el.isAdmin == 0) {
+                        req.push({
+                            id: el.id,
+                            image: el.image,
+                            name: `${el.firstname} ${el.lastname}`,
+                            requests: el.requests
+                        });
                     }
                     return req;
                 }, [])
@@ -30,7 +30,14 @@ export default function Users() {
                 console.log(err);
             })
     }, [dis])
-    return (<div className={' place-items-center h-90'}>
-        <DataTable columns={columns} data={users} key={users.length} />
-    </div>)
+    return (
+        <motion.div
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 100 }}
+            className={' place-items-center h-screen'}
+        >
+            <DataTable columns={columns} data={users} key={users.length} />
+        </motion.div>
+    )
 }

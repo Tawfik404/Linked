@@ -31,20 +31,16 @@ export default function DataTable<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
   })
-
     const user = useSelector((state: RootState) => state.user.user);
-
-  
-
   return (
-    <div className="overflow-hidden rounded-md border">
+    <div className="overflow-hidden rounded-md border w-110 xl:w-190 text-center">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id} style={{ color:user.color }}>
+                  <TableHead key={header.id} style={{ color:user.color }} className="text-center">
                     {header.isPlaceholder
                       ? null
                       : flexRender(

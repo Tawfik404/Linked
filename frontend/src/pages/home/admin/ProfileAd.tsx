@@ -41,12 +41,14 @@ import api from "@/config/api"
 import { setUser } from "@/config/slice"
 import { toast } from "sonner"
 import { Spinner } from "@/components/ui/spinner"
+import { motion } from "motion/react"
+
 export default function ProfileAd({className}){
   const nav = useNavigate()
   const dispatch = useDispatch<AppDispatch>();
     const user = useSelector((state: RootState) => state.user.user);
-    const [color,setColor] = useState<String>(user.color)
-    const [isLoading,setIsLoading] = useState<Boolean>(false)
+    const [color,setColor] = useState<string>(user.color)
+    const [isLoading,setIsLoading] = useState<boolean>(false)
     const updateColor = ()=>{
       setIsLoading(true)
       const age = new Date(user.date).getFullYear()
@@ -75,7 +77,7 @@ export default function ProfileAd({className}){
       }
     }
 
-    return <div className='grid grid-cols-1 gap-5 place-items-center h-90'>
+    return <div className='grid grid-cols-1 gap-5 place-items-center h-screen'>
               <Card className="w-full max-w-sm self-center">
         <CardHeader>
 
