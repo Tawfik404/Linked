@@ -289,7 +289,7 @@ export default function Signup() {
               </Popover>
 
               <Label htmlFor="country" className="my-2">
-                Pays
+                Country
               </Label>
               <Select
                 value={userInfo.country}
@@ -309,7 +309,7 @@ export default function Signup() {
               </Select>
 
               <Label htmlFor="currency" className="my-2">
-                Devise
+                Currency
               </Label>
               <Select
                 value={userInfo.currency}

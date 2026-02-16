@@ -41,7 +41,6 @@ import api from "@/config/api"
 import { setUser } from "@/config/slice"
 import { toast } from "sonner"
 import { Spinner } from "@/components/ui/spinner"
-import { motion } from "motion/react"
 
 export default function ProfileAd({className}){
   const nav = useNavigate()

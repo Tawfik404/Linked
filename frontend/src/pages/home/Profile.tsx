@@ -56,7 +56,7 @@ export default function Profile({ className }) {
     const age = new Date(user.date).getFullYear()
     const thisYear = new Date().getFullYear()
     if (thisYear - age < 15) {
-      toast.warning("Permistion required")
+      toast.warning("You need to be 15y for this action")
       setIsLoading(false)
       return
     }
