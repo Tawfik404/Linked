@@ -104,26 +104,6 @@ export const columns: ColumnDef<RequestType>[] = [
               <DropdownMenuItem
                 onClick={() => {
                   setOpen3(true)
-                  // console.log(row.original.id);
-                  // api.delete(`/users/${row.original.id}`)
-                  //   .then((res) => {
-                  //     console.log(res.data);
-                  //     const data = res.data.requests.reduce((req: object[], el: object) => {
-                  //       req.push({
-                  //         id: el.id,
-                  //         title: el.title,
-                  //         description: el.description,
-                  //         status: el.status
-                  //       });
-                  //       return req;
-                  //     }, [])
-                  //     dispatch(setUsers(data))
-                  //     toast.success("User Removed")
-                  //   })
-                  //   .catch((err) => {
-                  //     console.log(err);
-                  //     toast.warning("User was not Removed")
-                  //   })
                 }}>
                 <FontAwesomeIcon icon={faTrashCan} />
                 Remove

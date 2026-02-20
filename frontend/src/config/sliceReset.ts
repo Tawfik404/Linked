@@ -12,7 +12,7 @@ const appReducer = combineReducers({
   requests: requestsReducer,
 });
 
-// The magic reset wrapper
+
 const rootReducer = (state, action) => {
   if (action.type === "RESET") {
     state = undefined;  

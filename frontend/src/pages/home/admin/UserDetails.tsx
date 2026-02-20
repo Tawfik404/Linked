@@ -26,7 +26,7 @@ export default function UsersDetails({ id }) {
   }, [id])
 
   return (
-    <>
+    
  <div className="w-full max-w-sm self-center"
       style={{
         width: "320px",
@@ -94,7 +94,7 @@ export default function UsersDetails({ id }) {
           gap: "6px",
         }}
       >
-        <div>
+        <div className="flex justify-center">
           <span style={{ fontWeight: 600 }}>Birthdate:</span> {user.date}
         </div>
         <div className="flex justify-center gap-1">
@@ -106,7 +106,7 @@ export default function UsersDetails({ id }) {
               })}
            {user.country}
         </div>
-        <div>
+        <div className="flex justify-center">
           <span style={{ fontWeight: 600 }}>Currency:</span> {user.currency}
         </div>
         <div className="flex justify-center gap-1">
@@ -117,5 +117,5 @@ export default function UsersDetails({ id }) {
       </div>
     </div>
 
-    </>)
+   )
 }
